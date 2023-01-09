@@ -8,6 +8,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
 } from '@nestjs/common';
@@ -24,7 +25,7 @@ export class WinnersController {
   }
 
   @Get(':id')
-  async getWinner(@Param('id') id: number) {
+  async getWinner(@Param('id', new ParseIntPipe()) id: number) {
     const winner = this.winnersService.getWinner(id);
     if (winner) return winner;
 
@@ -40,7 +41,7 @@ export class WinnersController {
   @Put(':id')
   @Header('Content-Type', 'application/json')
   async updateWinner(
-    @Param('id') id: number,
+    @Param('id', new ParseIntPipe()) id: number,
     @Body() updateWinnerDto: UpdateWinnerDto,
   ) {
     const winner = this.winnersService.getWinner(id);
@@ -51,7 +52,7 @@ export class WinnersController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteWinner(@Param('id') id: number) {
+  async deleteWinner(@Param('id', new ParseIntPipe()) id: number) {
     const winner = this.winnersService.getWinner(id);
     if (winner) return this.winnersService.deleteWinner(id);
 
