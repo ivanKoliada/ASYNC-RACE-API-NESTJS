@@ -34,7 +34,7 @@ export class WinnersService {
   }
 
   async updateWinner(id: number, updateWinnerDto: UpdateWinnerDto) {
-    const index = this.winners.findIndex((winner) => winner.id === id);
+    const index = this.winners.findIndex((winner) => winner.id === +id);
 
     const updatedWinner = {
       ...updateWinnerDto,
@@ -47,6 +47,6 @@ export class WinnersService {
   }
 
   async deleteWinner(id: number) {
-    this.winners = this.winners.filter((winner) => winner.id !== id);
+    this.winners = this.winners.filter((winner) => winner.id !== +id);
   }
 }

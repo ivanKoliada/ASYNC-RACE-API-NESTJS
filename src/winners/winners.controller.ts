@@ -26,7 +26,7 @@ export class WinnersController {
 
   @Get(':id')
   async getWinner(@Param('id', new ParseIntPipe()) id: number) {
-    const winner = this.winnersService.getWinner(id);
+    const winner = await this.winnersService.getWinner(id);
     if (winner) return winner;
 
     throw new HttpException('Winner not found', HttpStatus.NOT_FOUND);
@@ -44,7 +44,7 @@ export class WinnersController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updateWinnerDto: UpdateWinnerDto,
   ) {
-    const winner = this.winnersService.getWinner(id);
+    const winner = await this.winnersService.getWinner(id);
     if (winner) return this.winnersService.updateWinner(id, updateWinnerDto);
 
     throw new HttpException('Winner not found', HttpStatus.NOT_FOUND);
@@ -53,7 +53,7 @@ export class WinnersController {
   @Delete(':id')
   @HttpCode(204)
   async deleteWinner(@Param('id', new ParseIntPipe()) id: number) {
-    const winner = this.winnersService.getWinner(id);
+    const winner = await this.winnersService.getWinner(id);
     if (winner) return this.winnersService.deleteWinner(id);
 
     throw new HttpException('Winner not found', HttpStatus.NOT_FOUND);
