@@ -10,6 +10,7 @@ import {
   HttpException,
   HttpStatus,
   HttpCode,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CreateCarDto, UpdateCarDto } from './garage.dto';
 import { GarageService } from './garage.service';
@@ -24,7 +25,7 @@ export class GarageController {
   }
 
   @Get(':id')
-  async getCar(@Param('id') id: number) {
+  async getCar(@Param('id', new ParseIntPipe()) id: number) {
     const car = await this.garageService.getCar(id);
     if (car) return car;
 
@@ -39,7 +40,10 @@ export class GarageController {
 
   @Put(':id')
   @Header('Content-Type', 'application/json')
-  async updateCar(@Param('id') id: number, @Body() updateCarDto: UpdateCarDto) {
+  async updateCar(
+    @Param('id', new ParseIntPipe()) id: number,
+    @Body() updateCarDto: UpdateCarDto,
+  ) {
     const car = this.garageService.getCar(id);
     if (car) return await this.garageService.updateCar(id, updateCarDto);
 
@@ -48,7 +52,7 @@ export class GarageController {
 
   @Delete(':id')
   @HttpCode(204)
-  async deleteCar(@Param('id') id: number) {
+  async deleteCar(@Param('id', new ParseIntPipe()) id: number) {
     const car = this.garageService.getCar(id);
     if (car) return await this.garageService.deleteCar(id);
 
