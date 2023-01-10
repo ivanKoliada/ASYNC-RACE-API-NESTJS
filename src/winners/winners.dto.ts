@@ -1,5 +1,22 @@
-import { IsNumber } from 'class-validator';
+import { IsIn, IsNumber, IsOptional } from 'class-validator';
 
+export class GetWinnersDto {
+  @IsNumber()
+  @IsOptional()
+  _page?: number;
+
+  @IsNumber()
+  @IsOptional()
+  _limit?: number;
+
+  @IsOptional()
+  @IsIn(['id', 'wins', 'time'])
+  _sort?: 'id' | 'wins' | 'time';
+
+  @IsOptional()
+  @IsIn(['ASC', 'DESC'])
+  _order?: 'ASC' | 'DESC';
+}
 export class CreateWinnerDto {
   @IsNumber()
   id: number;

@@ -11,7 +11,10 @@ import {
   HttpStatus,
   HttpCode,
   ParseIntPipe,
+  Query,
+  Res,
 } from '@nestjs/common';
+import { Response } from 'express';
 import { CreateCarDto, UpdateCarDto } from './garage.dto';
 import { GarageService } from './garage.service';
 
@@ -20,8 +23,19 @@ export class GarageController {
   constructor(private readonly garageService: GarageService) {}
 
   @Get()
-  async getCars() {
-    return await this.garageService.getCars();
+  @Header('Content-Type', 'application/json')
+  async getCars(
+    @Query('_page') _page?: number,
+    @Query('_limit') _limit?: number,
+    @Res() res?: Response,
+  ) {
+    const cars = await this.garageService.getCars(_page, _limit);
+
+    if (!_limit) {
+      res.setHeader('X-Total-Count', `${cars.length}`);
+    }
+
+    return res.end(JSON.stringify(cars));
   }
 
   @Get(':id')

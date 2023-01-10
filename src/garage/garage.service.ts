@@ -27,8 +27,12 @@ export class GarageService {
     },
   ];
 
-  async getCars(): Promise<CarEntity[]> {
-    return await this.cars;
+  async getCars(_page = 1, _limit: number): Promise<CarEntity[]> {
+    if (!_limit) {
+      return await this.cars;
+    }
+
+    return await this.cars.slice((_page - 1) * _limit, _page * _limit);
   }
 
   async getCar(id: number): Promise<CarEntity> {

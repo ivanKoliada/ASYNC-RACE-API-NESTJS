@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateWinnerDto, UpdateWinnerDto } from './winners.dto';
+import { CreateWinnerDto, GetWinnersDto, UpdateWinnerDto } from './winners.dto';
 import { WinnerEntity } from './winners.entity';
 
 @Injectable()
@@ -15,10 +15,46 @@ export class WinnersService {
       wins: 3,
       time: 7,
     },
+    {
+      id: 3,
+      wins: 3432,
+      time: 7,
+    },
+    {
+      id: 4,
+      wins: 3123,
+      time: 7,
+    },
+    {
+      id: 5,
+      wins: 3756,
+      time: 7,
+    },
+    {
+      id: 6,
+      wins: 314,
+      time: 7,
+    },
+    {
+      id: 7,
+      wins: 386,
+      time: 7,
+    },
   ];
 
-  async getWinners(): Promise<WinnerEntity[]> {
-    return await this.winners;
+  async getWinners(getWinnersDto: GetWinnersDto): Promise<WinnerEntity[]> {
+    const { _page = 1, _limit, _sort = 'id', _order = 'ASC' } = getWinnersDto;
+
+    const winners = await this.winners.sort((a, b) => {
+      if (_order === 'ASC') return a[_sort] - b[_sort];
+      if (_order === 'DESC') return b[_sort] - a[_sort];
+    });
+
+    if (!_limit) {
+      return winners;
+    }
+
+    return winners.slice((_page - 1) * _limit, _page * _limit);
   }
 
   async getWinner(id: number): Promise<WinnerEntity> {

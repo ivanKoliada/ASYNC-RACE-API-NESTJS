@@ -11,8 +11,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
+  Res,
 } from '@nestjs/common';
-import { CreateWinnerDto, UpdateWinnerDto } from './winners.dto';
+import { Response } from 'express';
+import { CreateWinnerDto, GetWinnersDto, UpdateWinnerDto } from './winners.dto';
 import { WinnersService } from './winners.service';
 
 @Controller('winners')
@@ -20,8 +23,18 @@ export class WinnersController {
   constructor(private readonly winnersService: WinnersService) {}
 
   @Get()
-  async getWinners() {
-    return await this.winnersService.getWinners();
+  @Header('Content-Type', 'application/json')
+  async getWinners(
+    @Query() getWinnersDto: GetWinnersDto,
+    @Res() res?: Response,
+  ) {
+    const winners = await this.winnersService.getWinners(getWinnersDto);
+
+    if (!getWinnersDto._limit) {
+      res.setHeader('X-Total-Count', `${winners.length}`);
+    }
+
+    res.end(JSON.stringify(winners));
   }
 
   @Get(':id')
