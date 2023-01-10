@@ -15,31 +15,6 @@ export class WinnersService {
       wins: 3,
       time: 7,
     },
-    {
-      id: 3,
-      wins: 3432,
-      time: 7,
-    },
-    {
-      id: 4,
-      wins: 3123,
-      time: 7,
-    },
-    {
-      id: 5,
-      wins: 3756,
-      time: 7,
-    },
-    {
-      id: 6,
-      wins: 314,
-      time: 7,
-    },
-    {
-      id: 7,
-      wins: 386,
-      time: 7,
-    },
   ];
 
   async getWinners(getWinnersDto: GetWinnersDto): Promise<WinnerEntity[]> {

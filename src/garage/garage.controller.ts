@@ -9,7 +9,6 @@ import {
   Put,
   HttpException,
   HttpStatus,
-  HttpCode,
   ParseIntPipe,
   Query,
   Res,
@@ -31,9 +30,8 @@ export class GarageController {
   ) {
     const cars = await this.garageService.getCars(_page, _limit);
 
-    if (!_limit) {
-      res.setHeader('X-Total-Count', `${cars.length}`);
-    }
+    res.set('Access-Control-Expose-Headers', 'X-Total-Count');
+    res.set('X-Total-Count', `${this.garageService.cars.length}`);
 
     return res.end(JSON.stringify(cars));
   }
@@ -58,16 +56,16 @@ export class GarageController {
     @Param('id', new ParseIntPipe()) id: number,
     @Body() updateCarDto: UpdateCarDto,
   ) {
-    const car = this.garageService.getCar(id);
+    const car = await this.garageService.getCar(id);
     if (car) return await this.garageService.updateCar(id, updateCarDto);
 
     throw new HttpException('Car not found', HttpStatus.NOT_FOUND);
   }
 
   @Delete(':id')
-  @HttpCode(204)
+  @Header('Content-Type', 'application/json')
   async deleteCar(@Param('id', new ParseIntPipe()) id: number) {
-    const car = this.garageService.getCar(id);
+    const car = await this.garageService.getCar(id);
     if (car) return await this.garageService.deleteCar(id);
 
     throw new HttpException('Car not found', HttpStatus.NOT_FOUND);

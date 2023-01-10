@@ -4,7 +4,7 @@ import { CarEntity } from './garage.entity';
 
 @Injectable()
 export class GarageService {
-  private cars: CarEntity[] = [
+  cars: CarEntity[] = [
     {
       name: 'Tesla',
       color: '#e6e6fa',
@@ -55,7 +55,7 @@ export class GarageService {
   }
 
   async updateCar(id: number, updateCarDto: UpdateCarDto): Promise<CarEntity> {
-    const index = this.cars.findIndex((car) => car.id === +id);
+    const index = await this.cars.findIndex((car) => car.id === +id);
 
     const updatedCar = {
       ...updateCarDto,
@@ -69,5 +69,6 @@ export class GarageService {
 
   async deleteCar(id: number) {
     this.cars = await this.cars.filter((car) => car.id !== +id);
+    return {};
   }
 }
