@@ -1,12 +1,15 @@
+import { Type } from 'class-transformer';
 import { IsIn, IsNumber, IsOptional } from 'class-validator';
 
 export class GetWinnersDto {
-  @IsNumber()
   @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
   _page?: number;
 
-  @IsNumber()
   @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
   _limit?: number;
 
   @IsOptional()
