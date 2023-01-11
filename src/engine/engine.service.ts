@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { Response } from 'express';
-import { SwitchEngineDto } from './engine.dto';
+import { QueryEngineDto } from './engine.dto';
 
 @Injectable()
 export class EngineService {
   state = { velocity: {}, blocked: {} };
 
-  switchEngine(switchEngineDto: SwitchEngineDto, res: Response) {
-    const { id, status } = switchEngineDto;
+  switchEngine(queryEngineDto: QueryEngineDto, res: Response) {
+    const { id, status } = queryEngineDto;
 
     const distance = 500000;
 
