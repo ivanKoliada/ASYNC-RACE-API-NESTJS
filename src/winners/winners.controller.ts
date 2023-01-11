@@ -30,9 +30,8 @@ export class WinnersController {
   ) {
     const winners = await this.winnersService.getWinners(getWinnersDto);
 
-    if (!getWinnersDto._limit) {
-      res.setHeader('X-Total-Count', `${winners.length}`);
-    }
+    res.set('Access-Control-Expose-Headers', 'X-Total-Count');
+    res.set('X-Total-Count', `${winners.length}`);
 
     res.end(JSON.stringify(winners));
   }
