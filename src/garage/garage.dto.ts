@@ -3,33 +3,33 @@ import { Type } from 'class-transformer';
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateCarDto {
-  @ApiProperty()
+  @ApiProperty({ example: 'Tesla' })
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: '#e6e6fa' })
   @IsString()
   color: string;
 }
 
 export class UpdateCarDto {
-  @ApiProperty()
+  @ApiProperty({ example: 'Mercedes' })
   @IsString()
   name: string;
 
-  @ApiProperty()
+  @ApiProperty({ example: '#ef3c40' })
   @IsString()
   color: string;
 }
 
 export class QueryGarageDto {
-  @ApiProperty({ required: false })
+  @ApiProperty({ example: 1, required: false })
   @IsOptional()
   @IsNumber()
   @Type(() => Number)
   _page?: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ example: 2, required: false })
   @IsOptional()
   @IsNumber()
   @Type(() => Number)

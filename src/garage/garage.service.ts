@@ -16,7 +16,7 @@ export class GarageService {
       id: 2,
     },
     {
-      name: 'Mersedes',
+      name: 'Mercedes',
       color: '#6c779f',
       id: 3,
     },
@@ -29,6 +29,7 @@ export class GarageService {
 
   async getCars(queryGarageDto: QueryGarageDto): Promise<CarEntity[]> {
     const { _page, _limit } = queryGarageDto;
+
     if (!_limit) {
       return await this.cars;
     }

@@ -18,6 +18,7 @@ import {
   ApiOkResponse,
   ApiTags,
   ApiCreatedResponse,
+  ApiOperation,
 } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateCarDto, QueryGarageDto, UpdateCarDto } from './garage.dto';
@@ -30,8 +31,11 @@ export class GarageController {
   constructor(private readonly garageService: GarageService) {}
 
   @Get()
+  @ApiOperation({
+    summary: 'Get cars',
+  })
   @ApiOkResponse({
-    type: CarEntity,
+    type: [CarEntity],
     description: 'OK',
   })
   @Header('Content-Type', 'application/json')
@@ -48,8 +52,11 @@ export class GarageController {
   }
 
   @Get(':id')
+  @ApiOperation({
+    summary: 'Get car by id',
+  })
   @ApiOkResponse({
-    type: [CarEntity],
+    type: CarEntity,
     description: 'OK',
   })
   @ApiNotFoundResponse({
@@ -64,6 +71,9 @@ export class GarageController {
   }
 
   @Post()
+  @ApiOperation({
+    summary: 'Create car',
+  })
   @ApiCreatedResponse({
     type: CarEntity,
     description: 'CREATED',
@@ -74,6 +84,9 @@ export class GarageController {
   }
 
   @Put(':id')
+  @ApiOperation({
+    summary: 'Update car by id',
+  })
   @ApiOkResponse({ type: CarEntity, description: 'OK' })
   @ApiNotFoundResponse({
     schema: { type: 'object' },
@@ -91,6 +104,9 @@ export class GarageController {
   }
 
   @Delete(':id')
+  @ApiOperation({
+    summary: 'Delete car by id',
+  })
   @ApiOkResponse({ schema: { type: 'object' }, description: 'OK' })
   @ApiNotFoundResponse({
     schema: { type: 'object' },
