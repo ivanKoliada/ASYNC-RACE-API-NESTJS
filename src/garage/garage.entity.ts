@@ -1,5 +1,12 @@
+import { ApiProperty } from '@nestjs/swagger';
+
 export class CarEntity {
-  name: string;
-  color: string;
+  @ApiProperty()
   id: number;
+
+  @ApiProperty()
+  name: string;
+
+  @ApiProperty()
+  color: string;
 }

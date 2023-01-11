@@ -13,30 +13,49 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
+import {
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+  ApiCreatedResponse,
+} from '@nestjs/swagger';
 import { Response } from 'express';
-import { CreateCarDto, UpdateCarDto } from './garage.dto';
+import { CreateCarDto, QueryGarageDto, UpdateCarDto } from './garage.dto';
+import { CarEntity } from './garage.entity';
 import { GarageService } from './garage.service';
 
+@ApiTags('garage')
 @Controller('garage')
 export class GarageController {
   constructor(private readonly garageService: GarageService) {}
 
   @Get()
+  @ApiOkResponse({
+    type: CarEntity,
+    description: 'OK',
+  })
   @Header('Content-Type', 'application/json')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async getCars(
-    @Query('_page') _page?: number,
-    @Query('_limit') _limit?: number,
+    @Query() queryGarageDto: QueryGarageDto,
     @Res() res?: Response,
   ) {
-    const cars = await this.garageService.getCars(_page, _limit);
+    const cars = await this.garageService.getCars(queryGarageDto);
 
-    res.set('Access-Control-Expose-Headers', 'X-Total-Count');
     res.set('X-Total-Count', `${this.garageService.cars.length}`);
 
     return res.end(JSON.stringify(cars));
   }
 
   @Get(':id')
+  @ApiOkResponse({
+    type: [CarEntity],
+    description: 'OK',
+  })
+  @ApiNotFoundResponse({
+    schema: { type: 'object' },
+    description: 'NOT FOUND',
+  })
   async getCar(@Param('id', new ParseIntPipe()) id: number) {
     const car = await this.garageService.getCar(id);
     if (car) return car;
@@ -45,12 +64,21 @@ export class GarageController {
   }
 
   @Post()
+  @ApiCreatedResponse({
+    type: CarEntity,
+    description: 'CREATED',
+  })
   @Header('Content-Type', 'application/json')
   async createCar(@Body() createCarDto: CreateCarDto) {
     return await this.garageService.createCar(createCarDto);
   }
 
   @Put(':id')
+  @ApiOkResponse({ type: CarEntity, description: 'OK' })
+  @ApiNotFoundResponse({
+    schema: { type: 'object' },
+    description: 'NOT FOUND',
+  })
   @Header('Content-Type', 'application/json')
   async updateCar(
     @Param('id', new ParseIntPipe()) id: number,
@@ -63,6 +91,11 @@ export class GarageController {
   }
 
   @Delete(':id')
+  @ApiOkResponse({ schema: { type: 'object' }, description: 'OK' })
+  @ApiNotFoundResponse({
+    schema: { type: 'object' },
+    description: 'NOT FOUND',
+  })
   @Header('Content-Type', 'application/json')
   async deleteCar(@Param('id', new ParseIntPipe()) id: number) {
     const car = await this.garageService.getCar(id);

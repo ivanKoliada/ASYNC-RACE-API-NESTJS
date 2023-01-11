@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { CreateCarDto, UpdateCarDto } from './garage.dto';
+import { CreateCarDto, QueryGarageDto, UpdateCarDto } from './garage.dto';
 import { CarEntity } from './garage.entity';
 
 @Injectable()
@@ -27,7 +27,8 @@ export class GarageService {
     },
   ];
 
-  async getCars(_page = 1, _limit: number): Promise<CarEntity[]> {
+  async getCars(queryGarageDto: QueryGarageDto): Promise<CarEntity[]> {
+    const { _page, _limit } = queryGarageDto;
     if (!_limit) {
       return await this.cars;
     }

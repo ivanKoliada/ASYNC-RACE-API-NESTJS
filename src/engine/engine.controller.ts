@@ -7,11 +7,13 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { GarageService } from 'src/garage/garage.service';
 import { SwitchEngineDto } from './engine.dto';
 import { EngineService } from './engine.service';
 
+@ApiTags('engine')
 @Controller('engine')
 export class EngineController {
   constructor(

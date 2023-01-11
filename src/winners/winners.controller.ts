@@ -14,23 +14,25 @@ import {
   Query,
   Res,
 } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 import { CreateWinnerDto, GetWinnersDto, UpdateWinnerDto } from './winners.dto';
 import { WinnersService } from './winners.service';
 
+@ApiTags('winners')
 @Controller('winners')
 export class WinnersController {
   constructor(private readonly winnersService: WinnersService) {}
 
   @Get()
   @Header('Content-Type', 'application/json')
+  @Header('Access-Control-Expose-Headers', 'X-Total-Count')
   async getWinners(
     @Query() getWinnersDto: GetWinnersDto,
     @Res() res?: Response,
   ) {
     const winners = await this.winnersService.getWinners(getWinnersDto);
 
-    res.set('Access-Control-Expose-Headers', 'X-Total-Count');
     res.set('X-Total-Count', `${winners.length}`);
 
     res.end(JSON.stringify(winners));
