@@ -5,5 +5,6 @@ import { GarageService } from './garage.service';
 @Module({
   controllers: [GarageController],
   providers: [GarageService],
+  exports: [GarageService],
 })
 export class GarageModule {}
