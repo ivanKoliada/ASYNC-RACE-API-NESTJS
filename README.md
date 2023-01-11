@@ -45,6 +45,6 @@ $ npm run start:prod
 
 ## Swagger
 
-[Swagger](http://localhost:5000/docs)
+Swagger opens after running the app at the following address - localhost:5000/docs or [Swagger](http://localhost:5000/docs)
 
 
