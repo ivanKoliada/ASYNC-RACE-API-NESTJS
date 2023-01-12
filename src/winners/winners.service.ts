@@ -4,7 +4,7 @@ import { WinnerEntity } from './winners.entity';
 
 @Injectable()
 export class WinnersService {
-  private winners: WinnerEntity[] = [
+  winners: WinnerEntity[] = [
     {
       id: 1,
       wins: 1,

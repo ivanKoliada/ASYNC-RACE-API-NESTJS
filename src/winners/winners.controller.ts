@@ -47,7 +47,7 @@ export class WinnersController {
   ) {
     const winners = await this.winnersService.getWinners(getWinnersDto);
 
-    res.set('X-Total-Count', `${winners.length}`);
+    res.set('X-Total-Count', `${this.winnersService.winners.length}`);
 
     res.end(JSON.stringify(winners));
   }
