@@ -4,18 +4,7 @@ import { WinnerEntity } from './winners.entity';
 
 @Injectable()
 export class WinnersService {
-  winners: WinnerEntity[] = [
-    {
-      id: 1,
-      wins: 1,
-      time: 10,
-    },
-    {
-      id: 2,
-      wins: 3,
-      time: 7,
-    },
-  ];
+  winners: WinnerEntity[] = [];
 
   async getWinners(getWinnersDto: GetWinnersDto): Promise<WinnerEntity[]> {
     const { _page = 1, _limit, _sort = 'id', _order = 'ASC' } = getWinnersDto;
